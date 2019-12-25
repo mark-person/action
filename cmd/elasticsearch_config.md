@@ -51,9 +51,7 @@ cluster.initial_master_nodes: ["node-1"]
 工具
 kibana
 
-
-
-
+https://www.elastic.co/cn/downloads/kibana
 
 
 
