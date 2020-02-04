@@ -49,6 +49,7 @@ const controllers = require('require-all')({
 cd myvue
 npm run serve
 * 访问http://localhost:8080/
+打包：npm run build.
 
 # npm run build
 发布生产：dist
