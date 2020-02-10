@@ -1,0 +1,3 @@
+# Vue -- vue-cli(vue脚手架) npm run build打包优化
+1、加载图片过多，过大时，加载缓慢
+...
