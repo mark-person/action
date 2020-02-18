@@ -1,0 +1,107 @@
+
+
+<!--
+JS module和普通的js脚本有些不同：
+* module默认使用的是严格模式（strick module）
+* 不支持html风格的注释
+* 模块具有自己的作用域。
+* export和import关键字仅可在模块系统中使用----所以不能在普通的js脚本中使用。
+所以，javascript运行环境必须知道引入的脚本是不是一个JS module。
+
+* JS module只会被浏览器解析并执行一次
+* JS module脚本和依赖有了跨域限制，这意味着任何跨域的JS module脚本都必须有正确的http头部信息
+* 推荐使用.mjs作为文件扩展名
+
+
+普通js脚本默认会阻塞html解析。你可以加一个defer属性，让脚本的下载和html解析并发执行。
+JS module脚本默认就有defer属性，所以，没有必要再加一个defer属性到<script type="module">标签上!
+
+
+# 动态加载 Dynamic import()
+使用静态模块，在主程序运行之前，所有的模块代码都必须加载并执行完毕。
+并不想在一开始就加载某个模块，而是想在需要的时候随时动态去请求
+
+<script type="module">
+  (async () => {
+    const moduleSpecifier = './lib.mjs';
+    const {repeat, shout} = await import(moduleSpecifier);
+    repeat('hello');
+    // → 'hello hello'
+    shout('Dynamic import in action');
+    // → 'DYNAMIC IMPORT IN ACTION!'
+  })();
+</script>
+
+# import.meta(这个属性我们可以获得当前模块的元数据)
+# import.meta.url使得我们可以相对于当前模块的路径去加载图片。
+```js
+function loadThumbnail(relativePath) {
+  const url = new URL(relativePath, import.meta.url);
+  const image = new Image();
+  image.src = url;
+  return image;
+}
+
+const thumbnail = loadThumbnail('../img/thumbnail.png');
+container.append(thumbnail);
+```
+
+
+# export default命令
+* 在一个文件或模块中，export、import 可以有多个，export default 仅有一个
+* export default 中的 default 是对应的导出接口变量
+* 通过 export 方式导出，在导入时要加{ }，export default 则不需要
+* export default 向外暴露的成员，可以使用任意变量来接收。
+
+
+
+ES6 对象内函数的两种写法
+```
+// 写法1
+var person1 = {
+    name: "p1",
+    sayThis() {
+        console.log(this);
+    }
+};
+// 写法2
+var person2 = {
+	name: "p2",
+	sayThis:()=> {
+		console.log(this);
+	}
+};
+```
+
+
+
+-->
+
+<script type="module">
+
+let obj = {
+	data() {
+		return "abc"
+	},
+	test:function() {
+		return "ccccccc"
+	}
+}
+
+console.log(obj.test());
+
+
+
+import { myName, myAge, myfn, myClass } from "./export.js";
+console.log(myfn());// My name is Tom! I'm 20 years old.
+console.log(myAge);// 20
+console.log(myName);// Tom
+console.log(myClass.a);// yeah!
+
+import repeat from "./export-default.js";
+
+console.log(repeat("xx"));
+
+
+
+</script>
