@@ -54,6 +54,73 @@ npm install --save-dev webpack-merge
 
 https://www.webpackjs.com/guides/code-splitting/
 
+代码分离是webpack中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。
+代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。
+
+* 入口起点:entry points(最简单、最直观的分离代码的方式)
+>> * 分动配置较多，并有一些陷阱
+```
+|- /src
+  |- index.js
++ |- another-module.js
+
+entry: {
+    index: './src/index.js',
+    another: './src/another-module.js'
+}
+
+// another-module.js
+import _ from 'lodash';
+
+console.log(
+  _.join(['Another', 'module', 'loaded!'], ' ')
+);
+
+```
+* 正如前面提到的，这种方法存在一些问题:
+>> * 如果入口chunks之间包含重复的模块，那些重复模块都会被引入到各个bundle中。
+>> * 这种方法不够灵活，并且不能将核心应用逻辑进行动态拆分代码。
+
+##### 防止重复(prevent duplication)
+CommonsChunkPlugin 插件可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk。
+```
+plugins: [
+
++     }),
++     new webpack.optimize.CommonsChunkPlugin({
++       name: 'common' // 指定公共 bundle 的名称。
++     })
+```
+* 这里我们使用 CommonsChunkPlugin 之后，现在应该可以看出，index.bundle.js 中已经移除了重复的依赖模块
+
+#### 动态导入(dynamic imports)
+* 当涉及到动态代码拆分时，webpack提供了两个类似的技术.
+>> * 第一种，也是优先选择的方式是，使用符合ECMAScript提案的import()语法。
+>> * 第二种，则是使用webpack特定的require.ensure.
+
+```
++     chunkFilename: '[name].bundle.js',
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
 
 
 
